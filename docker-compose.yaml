@@ -83,11 +83,6 @@ services:
     ports:
       - "4150:4150"
       - "4151:4151"
-    environment:
-      - PGDATA=/var/lib/postgresql/data/pgdata
-      - POSTGRES_USER=retraced
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=retraced
     networks:
       - retraced
     restart: "always"
@@ -110,19 +105,11 @@ services:
     image: elasticsearch:7.8.0
     volumes:
       - ./elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - elasticsearch-data:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
     networks:
       - retraced
-
-  # opensearch:
-  #   image: opensearchproject/opensearch:1.3.2
-  #   volumes:
-  #     - ./opensearch.yml:/usr/share/opensearch/config/opensearch.yml
-  #   ports:
-  #     - "9200:9200"
-  #   networks:
-  #     - retraced
 
   # kibana:
   #   image: docker.elastic.co/kibana/kibana:7.8.0
@@ -197,3 +184,6 @@ services:
     depends_on:
       - "retraced-api"
     restart: "always"
+
+volumes:
+  elasticsearch-data:
